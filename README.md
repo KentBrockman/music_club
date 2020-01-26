@@ -17,8 +17,10 @@ python manage.py runserver
 
 TBD
 
-## To Do
+## TODO
 
 - Example data for automated testing
 - Views
 - Script to pull data from Google Sheets
+- search TODO for additional things...
+- music_group isnt a good app name...maybe call it core? or should app be called music_club and project should be something else?

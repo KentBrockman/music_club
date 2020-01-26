@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 
 _album_types = ['single', 'EP', 'studio', 'double EP', 'live']
+_expectations = ['Well Below', 'Below', 'Slightly Below',
+                 'Met', 'Slightly Above', 'Above', 'Well Above']
 
 
 class Album(models.Model):
@@ -31,6 +33,11 @@ class ListeningGroup(models.Model):
     users = models.ManyToManyField(User)
 
 
+class Theme(models.Model):
+    name = models.CharField(max_length=150)
+    description = models.TextField(default='')
+
+
 class AlbumSubmission(models.Model):
     """an album submitted to a listening group"""
     # TODO: make album/submittedOn nullable to queue up picks
@@ -38,16 +45,21 @@ class AlbumSubmission(models.Model):
     submittedOn = models.DateTimeField(auto_now=True)
     submittedBy = models.ForeignKey(User, on_delete=models.PROTECT)
     submittedTo = models.ForeignKey(ListeningGroup, on_delete=models.PROTECT)
-    # TODO: normalize?
-    theme = models.CharField(max_length=100)
+    theme = models.ForeignKey(
+        Theme, on_delete=models.PROTECT, blank=True, null=True)
 
 
 class AlbumReview(models.Model):
     """comments from a user on an album"""
+    EXPECTATIONS_CHOICES = [(str(i), _expectations[i])
+                            for i in range(len(_expectations))]
     reviewedBy = models.ForeignKey(User, on_delete=models.PROTECT)
     reviewedOn = models.DateTimeField(auto_now=True)
-    comment = models.TextField()
+    review = models.TextField(null=True, blank=True)
     favouriteTrack = models.CharField(max_length=100)
+    expectations = models.CharField(
+        max_length=16, choices=EXPECTATIONS_CHOICES, default='3')
+
 
 # TODO: ranking approaches
 # connect to album review
@@ -60,3 +72,20 @@ class AlbumReview(models.Model):
 # class StarRanking(models.Model):
 #     review = models.ForeignKey(AlbumReview, on_delete=models.CASCADE)
 #     stars = models.DecimalField()
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    comment = models.TextField()
+    submittedOn = models.DateTimeField(auto_now=True)
+
+    # comments can be on one of the following:
+    # TODO: validation rule for this?
+    # TODO: verify ManyToOne nature of relationship here
+    on_album = models.ForeignKey(
+        Album, on_delete=models.CASCADE, null=True, blank=True, related_name='comments')
+    on_submission = models.ForeignKey(
+        AlbumSubmission, on_delete=models.CASCADE, null=True, blank=True, related_name='comments')
+    on_review = models.ForeignKey(
+        AlbumReview, on_delete=models.CASCADE, null=True, blank=True, related_name='comments')
+    on_theme = models.ForeignKey(
+        Theme, on_delete=models.CASCADE, null=True, blank=True, related_name='comments')
