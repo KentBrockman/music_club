@@ -15,10 +15,20 @@ Order of data ingestion...
 3. AlbumSubmission
 4. AlbumReview
 5. Comment
+
+Next steps:
+
+To get comments:
+    - cannot be done through Google Sheets API
+        - https://stackoverflow.com/questions/62857183/how-get-comments-from-cells-with-google-sheets-api
+        - notes and comments are different things. notes can be retrieved. comments cannot
+    - Explore a way to do it through .xlsx?
+        - if possible, export music spreadsheet as xlsx and scrape data from .xlsx instead
 """
 
 from __future__ import print_function
 
+import json
 import os
 import os.path
 import pickle
@@ -89,17 +99,26 @@ def get_values(service, cell_range):
         for row in values:
             yield row
 
-if __name__ == '__main__':
+def get_comments(service, cell_range):
+    """Get cell values from a Google Spreadsheet"""
+    # result = service.spreadsheets().get(spreadsheetId=SPREADSHEET_ID, ranges=cell_range, includeGridData=True).execute()
+    # result = service.spreadsheets().get(spreadsheetId=SPREADSHEET_ID, fields="sheets/data/rowData/values/note", ranges=cell_range).execute()
+    # result = service.spreadsheets().get(spreadsheetId=SPREADSHEET_ID, fields="sheets/data/rowData/values/note", ranges=cell_range).execute()
+    raise NotImplementedException("google sheets doesnt support this")
+
+
+def scrape_google_sheet():
+
     # start with the first 10 albums
     # HACK: everyones review page MUST be sorted by listening date for this to work. we arent working with databases here!
     album_range = 'Main List!B8:O17'
     reviews = {
         'kent': 'Kent!B29:V38',
-        # 'ian': 'Ian!B29:V38',
-        # 'colin': 'Colin!B29:V38',
-        # 'matt': 'Matt!B29:V38',
-        # 'alex': 'Alex!B29:V38',
-        # 'scott': 'Scott!B29:V38',
+        'ian': 'Ian!B29:V38',
+        'colin': 'Colin!B29:V38',
+        'matt': 'Matt!B29:X38',
+        'alex': 'Alex!B29:V38',
+        'scott': 'Scott!B29:V38',
         # 'alexis': 'Alexis!B29:V38',
         # 'john': 'John!B29:V38',
     }
@@ -118,7 +137,7 @@ if __name__ == '__main__':
             artist = value[2],
             year = value[3],
             label = value[4],
-            # TODO: mapping function...
+            # TODO: mapping function, album type from the raw data is not conformed at all
             albumType = value[5].lower(),
             country = value[6],
             length = parse_album_runtime(value[7]),
@@ -137,12 +156,32 @@ if __name__ == '__main__':
         ).save()
 
     for reviewer, cell_range in reviews.items():
+        print(f'AlbumReview for {reviewer}')
+        review_column = 20
+        if reviewer == 'matt':
+            # matt has two extra columns on his sheet - Relative Rank and Listen Above Order
+            review_column = 22
         for value in get_values(service, cell_range):
+            print(value)
             AlbumReview(
                 album=Album.objects.get(title=value[2]),
                 reviewedBy=User.objects.get(username=reviewer),
                 reviewedOn=datetime.strptime(value[18], "%m/%d/%Y"),
-                review=value[20],
+                # if no review, value will be missing the review column
+                review=value[review_column] if review_column < len(value) else '',
                 favouriteTrack=value[17],
                 expectations=value[19],
             ).save()
+
+def make_fake_comments():
+    # grab all the album reviews
+    # randomize between 0-5 comments with 1-5 sentences of lorem ipsum
+    pass
+
+if __name__ == '__main__':
+    scrape_google_sheet()
+
+    # experimenting with getting comments
+    # print(json.dumps(get_comments(service, "Kent!V118")))
+
+    make_fake_comments()
