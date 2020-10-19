@@ -1,5 +1,7 @@
-from django.db import models
+import datetime
+
 from django.contrib.auth.models import User
+from django.db import models
 
 _album_types = ['single', 'EP', 'studio', 'double EP', 'live']
 _expectations = ['Well Below', 'Below', 'Slightly Below',
@@ -32,6 +34,9 @@ class ListeningGroup(models.Model):
     name = models.CharField(max_length=200)
     users = models.ManyToManyField(User)
 
+    def __str__(self):
+        return self.name
+
 
 class Theme(models.Model):
     name = models.CharField(max_length=150)
@@ -45,6 +50,7 @@ class AlbumSubmission(models.Model):
     submittedOn = models.DateTimeField(auto_now=True)
     submittedBy = models.ForeignKey(User, on_delete=models.PROTECT)
     submittedTo = models.ForeignKey(ListeningGroup, on_delete=models.PROTECT)
+    round = models.IntegerField(default=0)
     theme = models.ForeignKey(
         Theme, on_delete=models.PROTECT, blank=True, null=True)
 
@@ -53,8 +59,9 @@ class AlbumReview(models.Model):
     """comments from a user on an album"""
     EXPECTATIONS_CHOICES = [(str(i), _expectations[i])
                             for i in range(len(_expectations))]
+    album = models.ForeignKey(Album, on_delete=models.PROTECT)
     reviewedBy = models.ForeignKey(User, on_delete=models.PROTECT)
-    reviewedOn = models.DateTimeField(auto_now=True)
+    reviewedOn = models.DateField(default=datetime.date.today)
     review = models.TextField(null=True, blank=True)
     favouriteTrack = models.CharField(max_length=100)
     expectations = models.CharField(
