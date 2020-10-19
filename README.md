@@ -19,7 +19,12 @@ TBD
 
 ## TODO
 
-- Example data for automated testing
 - Views
-- Script to pull data from Google Sheets
 - search TODO for additional things...
+
+## Parking lot
+
+- force user to change password
+    - https://docs.djangoproject.com/en/3.1/ref/contrib/auth/#django.contrib.auth.models.User.set_unusable_password
+- Shitlist
+- Theme voting

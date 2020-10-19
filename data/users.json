@@ -1,0 +1,164 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$4THShlF78tOU$L8TAfhlSyxVzzeRQfSUMaZv9nxNJcdSV8JMkE6iJXuk=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "kent",
+      "first_name": "Kent",
+      "last_name": "Brockman",
+      "email": "kent@musicclub.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-10-19T14:49:40.448Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$4THShlF78tOU$L8TAfhlSyxVzzeRQfSUMaZv9nxNJcdSV8JMkE6iJXuk=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "ian",
+      "first_name": "Ian",
+      "last_name": "Pitman",
+      "email": "ian@musicclub.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-10-19T14:49:40.448Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$4THShlF78tOU$L8TAfhlSyxVzzeRQfSUMaZv9nxNJcdSV8JMkE6iJXuk=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "matt",
+      "first_name": "Matt",
+      "last_name": "Brockman",
+      "email": "matt@musicclub.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-10-19T14:49:40.448Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$4THShlF78tOU$L8TAfhlSyxVzzeRQfSUMaZv9nxNJcdSV8JMkE6iJXuk=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "alex",
+      "first_name": "Alex",
+      "last_name": "Havers",
+      "email": "alex@musicclub.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-10-19T14:49:40.448Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$4THShlF78tOU$L8TAfhlSyxVzzeRQfSUMaZv9nxNJcdSV8JMkE6iJXuk=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "colin",
+      "first_name": "Colin",
+      "last_name": "Pitman",
+      "email": "colin@musicclub.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-10-19T14:49:40.448Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 6,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$4THShlF78tOU$L8TAfhlSyxVzzeRQfSUMaZv9nxNJcdSV8JMkE6iJXuk=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "scott",
+      "first_name": "Scott",
+      "last_name": "C",
+      "email": "scott@musicclub.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-10-19T14:49:40.448Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 7,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$4THShlF78tOU$L8TAfhlSyxVzzeRQfSUMaZv9nxNJcdSV8JMkE6iJXuk=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "john",
+      "first_name": "John",
+      "last_name": "Bird",
+      "email": "john@musicclub.com",
+      "is_staff": false,
+      "is_active": false,
+      "date_joined": "2020-10-19T14:49:40.448Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 8,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$4THShlF78tOU$L8TAfhlSyxVzzeRQfSUMaZv9nxNJcdSV8JMkE6iJXuk=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "marco",
+      "first_name": "Marco",
+      "last_name": "Velis",
+      "email": "marco@musicclub.com",
+      "is_staff": false,
+      "is_active": false,
+      "date_joined": "2020-10-19T14:49:40.448Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 9,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$4THShlF78tOU$L8TAfhlSyxVzzeRQfSUMaZv9nxNJcdSV8JMkE6iJXuk=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "alexis",
+      "first_name": "Alexis",
+      "last_name": "Guigue",
+      "email": "alexis@musicclub.com",
+      "is_staff": false,
+      "is_active": false,
+      "date_joined": "2020-10-19T14:49:40.448Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]

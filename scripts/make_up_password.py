@@ -7,7 +7,7 @@ import sys
 from django.contrib.auth.hashers import make_password
 
 if 'DJANGO_SETTINGS_MODULE' not in os.environ:
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'music_club.settings'
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'demo_project.settings'
 
 
 def hash_password(password):
