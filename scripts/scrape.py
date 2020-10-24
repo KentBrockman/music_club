@@ -32,6 +32,7 @@ import json
 import os
 import os.path
 import pickle
+import random
 import sys
 from datetime import datetime, timedelta
 
@@ -107,8 +108,22 @@ def get_comments(service, cell_range):
     raise NotImplementedException("google sheets doesnt support this")
 
 
-def scrape_google_sheet():
+def make_fake_comments():
+    # randomize between 0-5 comments with 1-5 sentences of lorem ipsum
+    from music_club.models import Album, AlbumSubmission, AlbumReview, Comment
+    from django.contrib.auth.models import User
+    lorem_ipsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    for album_review in AlbumReview.objects.all():
+        print(f"review {album_review}")
+        for _ in range(0, random.randint(0,5)):
+            comment = Comment(
+                user=User.objects.get(pk=random.randint(1,6)),
+                comment=" ".join([lorem_ipsum for x in range(0, random.randint(1,5))]),
+                on_review=album_review,
+            )
+            comment.save()
 
+def scrape_google_sheet():
     # start with the first 10 albums
     # HACK: everyones review page MUST be sorted by listening date for this to work. we arent working with databases here!
     album_range = 'Main List!B8:O17'
@@ -123,9 +138,7 @@ def scrape_google_sheet():
         # 'john': 'John!B29:V38',
     }
 
-    # setup django so we can script stuff into the DB...
-    setup_django()
-    from music_club.models import Album, AlbumSubmission, ListeningGroup, AlbumReview
+    from music_club.models import Album, AlbumSubmission, ListeningGroup, AlbumReview, Comment
     from django.contrib.auth.models import User
     default_listening_group = ListeningGroup.objects.filter(name='Progenitors')[0]
 
@@ -163,7 +176,7 @@ def scrape_google_sheet():
             review_column = 22
         for value in get_values(service, cell_range):
             print(value)
-            AlbumReview(
+            album_review = AlbumReview(
                 album=Album.objects.get(title=value[2]),
                 reviewedBy=User.objects.get(username=reviewer),
                 reviewedOn=datetime.strptime(value[18], "%m/%d/%Y"),
@@ -171,17 +184,15 @@ def scrape_google_sheet():
                 review=value[review_column] if review_column < len(value) else '',
                 favouriteTrack=value[17],
                 expectations=value[19],
-            ).save()
-
-def make_fake_comments():
-    # grab all the album reviews
-    # randomize between 0-5 comments with 1-5 sentences of lorem ipsum
-    pass
+            )
+            album_review.save()
 
 if __name__ == '__main__':
+    # setup django so we can script stuff into the DB...
+    setup_django()
+
     scrape_google_sheet()
 
     # experimenting with getting comments
     # print(json.dumps(get_comments(service, "Kent!V118")))
-
     make_fake_comments()
