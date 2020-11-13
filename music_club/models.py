@@ -54,6 +54,9 @@ class AlbumSubmission(models.Model):
     theme = models.ForeignKey(
         Theme, on_delete=models.PROTECT, blank=True, null=True)
 
+    def __str__(self):
+        return f"{self.submittedBy.get_full_name()} submits {self.album.title} to {self.submittedTo.name}"
+
 
 class AlbumReview(models.Model):
     """comments from a user on an album"""
@@ -66,6 +69,9 @@ class AlbumReview(models.Model):
     favouriteTrack = models.CharField(max_length=100)
     expectations = models.CharField(
         max_length=16, choices=EXPECTATIONS_CHOICES, default='3')
+
+    def __str__(self):
+        return f"{self.reviewedBy.get_full_name()}'s {self.album.title} Review"
 
 
 # TODO: ranking approaches

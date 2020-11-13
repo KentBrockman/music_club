@@ -1,7 +1,7 @@
 <!-- templates/home.html -->
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Music Club - Submit, Rate and Discuss Your Favorite Albums!{% endblock %}
 
 {% block content %}
 <p>This is the main page</p>
@@ -9,11 +9,12 @@
   Hi {{ user.username }}!
   <p><a href="{% url 'logout' %}">Log Out</a></p>
   {% if albumsubmissions %}
-  {% for submission in albumsubmissions %}
-    <div>
-      <p>{{submission.album.title}}</p>
-    </div>
-  {% endfor %}
+    {% for submission in albumsubmissions %}
+      <div>
+        <p>Round {{submission.round}}</p>
+        <p>{{submission.album.title}} by {{submission.album.artist}} from {{submission.submittedBy.get_full_name}}</p>
+      </div>
+    {% endfor %}
   {% endif %} 
 {% else %}
   <p>You are not logged in</p>
